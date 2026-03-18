@@ -439,10 +439,10 @@ function Remove-Initiative {
             Wait-ForEnter; return
         }
 
-        $matches = @()
+        $found = @()
         foreach ($init in $initiatives) {
             if ($init.name -like "*$query*") {
-                $matches += [pscustomobject]@{
+                $found += [pscustomobject]@{
                     InitiativeId = [string]$init.id
                     Initiative   = [string]$init.name
                     ClientName   = [string]$init.client.label
@@ -450,7 +450,7 @@ function Remove-Initiative {
             }
         }
 
-        if ($matches.Count -eq 0) {
+        if ($found.Count -eq 0) {
             Write-Host "  No initiatives matched '$query'." -ForegroundColor Yellow
             Wait-ForEnter; return
         }
@@ -459,8 +459,8 @@ function Remove-Initiative {
         Write-Host "  Matches:" -ForegroundColor Green
         Write-Host ""
 
-        for ($i = 0; $i -lt $matches.Count; $i++) {
-            $m = $matches[$i]
+        for ($i = 0; $i -lt $found.Count; $i++) {
+            $m = $found[$i]
             Write-Host ("  {0}. {1}  |  {2}  |  {3}" -f `
                 ($i + 1), $m.Initiative, $m.ClientName, $m.InitiativeId) -ForegroundColor Green
         }
@@ -482,21 +482,21 @@ function Remove-Initiative {
                 Write-Host "  Cancelled." -ForegroundColor Yellow
                 Wait-ForEnter; return
             }
-            $toDelete = $matches
+            $toDelete = $found
         }
         else {
             $nums = @(
                 ($selRaw -split '[,\s]+') |
                 Where-Object { $_ -match '^\d+$' } |
                 ForEach-Object { [int]$_ } |
-                Where-Object { $_ -ge 1 -and $_ -le $matches.Count } |
+                Where-Object { $_ -ge 1 -and $_ -le $found.Count } |
                 Select-Object -Unique
             )
             if ($nums.Count -eq 0) {
                 Write-Host "  No valid selections." -ForegroundColor Yellow
                 Wait-ForEnter; return
             }
-            $toDelete = @($nums | ForEach-Object { $matches[$_ - 1] })
+            $toDelete = @($nums | ForEach-Object { $found[$_ - 1] })
         }
 
         Show-Header "Initiatives > Delete (Executing)"
