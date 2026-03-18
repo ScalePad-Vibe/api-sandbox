@@ -23,8 +23,8 @@ An interactive PowerShell recipe that walks you through the ScalePad **Core** an
 **1. Clone this repository**
 
 ```bash
-git clone https://github.com/ScalePad/scalepad-api-sandbox-ps.git
-cd scalepad-api-sandbox-ps
+git clone https://github.com/ScalePad-Vibe/api-sandbox.git
+cd api-sandbox
 ```
 
 **2. Run the script**
@@ -127,6 +127,10 @@ The sandbox includes ready-to-use templates so you can create realistic data wit
 ├── samples.json           # Initiative + meeting templates (edit to customize)
 └── README.md
 ```
+
+## Acknowledgments
+
+This recipe was inspired by and built on initial work from **Tulsie Narine**, Senior Solutions Engineer at ScalePad.
 
 ## License
 
