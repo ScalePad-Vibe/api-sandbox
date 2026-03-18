@@ -1,0 +1,96 @@
+{
+  "initiatives": [
+    {
+      "name": "Server Replacement",
+      "summary": "Replace aging server hardware and refresh warranty coverage.",
+      "budget": {
+        "label": "Server hardware & migration",
+        "cost_subunits": 750000
+      },
+      "recurring": {
+        "label": "Managed server warranty/support",
+        "cost_subunits": 15000,
+        "frequency": "Monthly"
+      }
+    },
+    {
+      "name": "Cloud Migration",
+      "summary": "Migrate core workloads to cloud infrastructure with minimal downtime.",
+      "budget": {
+        "label": "Migration project services",
+        "cost_subunits": 500000
+      },
+      "recurring": {
+        "label": "Cloud subscription",
+        "cost_subunits": 80000,
+        "frequency": "Monthly"
+      }
+    },
+    {
+      "name": "Network Refresh",
+      "summary": "Upgrade switching, firewall, and wireless to modern standards.",
+      "budget": {
+        "label": "Network hardware & install",
+        "cost_subunits": 400000
+      },
+      "recurring": {
+        "label": "Firewall/security subscription",
+        "cost_subunits": 60000,
+        "frequency": "Monthly"
+      }
+    },
+    {
+      "name": "Email Security Upgrade",
+      "summary": "Deploy enhanced email security controls and phishing protection.",
+      "budget": {
+        "label": "Deployment & configuration",
+        "cost_subunits": 150000
+      },
+      "recurring": {
+        "label": "Email security licensing",
+        "cost_subunits": 12000,
+        "frequency": "Monthly"
+      }
+    },
+    {
+      "name": "Backup & DR Modernization",
+      "summary": "Modernize backup strategy and validate disaster recovery readiness.",
+      "budget": {
+        "label": "Backup redesign & implementation",
+        "cost_subunits": 300000
+      },
+      "recurring": {
+        "label": "Backup/DR subscription",
+        "cost_subunits": 90000,
+        "frequency": "Monthly"
+      }
+    }
+  ],
+  "meetings": [
+    {
+      "menu_name": "Quarterly Business Review",
+      "title": "Q1 2026 Business Review & Strategic Planning",
+      "agenda": "Review Q1 performance metrics, discuss strategic initiatives, align on Q2-Q3 roadmap, and address any blockers."
+    },
+    {
+      "menu_name": "Network Assessment",
+      "title": "IT Infrastructure & Network Assessment",
+      "agenda": "Evaluate current network topology, identify capacity constraints, review security posture, and plan upgrade recommendations."
+    },
+    {
+      "menu_name": "Security & Compliance",
+      "title": "Security Posture & Compliance Review",
+      "agenda": "Audit security controls, review compliance status, discuss threat landscape, and define remediation priorities."
+    },
+    {
+      "menu_name": "Technology Roadmap",
+      "title": "3-Year Technology Roadmap Planning",
+      "agenda": "Outline technology strategy for next 3 years, prioritize modernization initiatives, and establish KPIs for success."
+    },
+    {
+      "menu_name": "Budget & ROI Analysis",
+      "title": "IT Budget Planning & ROI Analysis",
+      "agenda": "Review IT spending trends, analyze ROI on previous investments, present budget request for next fiscal year."
+    }
+  ]
+}
