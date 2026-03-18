@@ -277,35 +277,37 @@ function Show-InitiativeList {
         foreach ($init in $initiatives) {
             $cid = [string]$init.client.id
             if ([string]::IsNullOrWhiteSpace($cid)) { continue }
-            if (-not $map.ContainsKey($cid)) { $map[$cid] = @() }
-            $map[$cid] += [pscustomobject]@{
+            if (-not $map.ContainsKey($cid)) {
+                $map[$cid] = [System.Collections.Generic.List[object]]::new()
+            }
+            $map[$cid].Add([pscustomobject]@{
                 Name   = $init.name
                 Id     = $init.id
                 Status = $init.status
-            }
+            })
         }
 
-        $rows = @()
+        $rows = [System.Collections.Generic.List[object]]::new()
         foreach ($c in ($clients | Sort-Object name)) {
             $cid  = [string]$c.id
             $list = $map[$cid]
 
             if (-not $list) {
-                $rows += [pscustomobject]@{
+                $rows.Add([pscustomobject]@{
                     "Client"        = $c.name
                     "Initiative"    = ""
                     "Initiative ID" = ""
                     "Status"        = ""
-                }
+                })
             }
             else {
                 for ($k = 0; $k -lt $list.Count; $k++) {
-                    $rows += [pscustomobject]@{
+                    $rows.Add([pscustomobject]@{
                         "Client"        = $(if ($k -eq 0) { $c.name } else { "" })
                         "Initiative"    = $list[$k].Name
                         "Initiative ID" = $list[$k].Id
                         "Status"        = $list[$k].Status
-                    }
+                    })
                 }
             }
         }
@@ -362,7 +364,7 @@ function New-Initiative {
         Write-Host ("  Creating '{0}' for {1} client(s)..." -f $template.Name, $targets.Count) -ForegroundColor Green
         Write-Host ""
 
-        $results = @()
+        $results = [System.Collections.Generic.List[object]]::new()
 
         foreach ($c in $targets) {
             $payload = @{
@@ -397,14 +399,14 @@ function New-Initiative {
                 $createStatus = "ERROR: $($_.Exception.Message)"
             }
 
-            $results += [pscustomobject]@{
+            $results.Add([pscustomobject]@{
                 "Client"    = $c.name
                 "Initiative"= $template.Name
                 "ID"        = $newId
                 "Create"    = $createStatus
                 "Budget"    = $budgetStatus
                 "Recurring" = $recurStatus
-            }
+            })
         }
 
         $table = $results | Format-Table -AutoSize | Out-String
@@ -439,16 +441,15 @@ function Remove-Initiative {
             Wait-ForEnter; return
         }
 
-        $found = @()
-        foreach ($init in $initiatives) {
+        $found = @(foreach ($init in $initiatives) {
             if ($init.name -like "*$query*") {
-                $found += [pscustomobject]@{
+                [pscustomobject]@{
                     InitiativeId = [string]$init.id
                     Initiative   = [string]$init.name
                     ClientName   = [string]$init.client.label
                 }
             }
-        }
+        })
 
         if ($found.Count -eq 0) {
             Write-Host "  No initiatives matched '$query'." -ForegroundColor Yellow
@@ -503,7 +504,7 @@ function Remove-Initiative {
         Write-Host ("  Deleting {0} initiative(s)..." -f $toDelete.Count) -ForegroundColor Green
         Write-Host ""
 
-        $results = @()
+        $results = [System.Collections.Generic.List[object]]::new()
 
         foreach ($m in $toDelete) {
             try {
@@ -517,12 +518,12 @@ function Remove-Initiative {
                 $status = "ERROR: $($_.Exception.Message)"
             }
 
-            $results += [pscustomobject]@{
+            $results.Add([pscustomobject]@{
                 "Initiative"    = $m.Initiative
                 "Client"        = $m.ClientName
                 "Initiative ID" = $m.InitiativeId
                 "Status"        = $status
-            }
+            })
         }
 
         $table = $results | Format-Table -AutoSize | Out-String
@@ -571,9 +572,8 @@ function Show-MeetingList {
             Wait-ForEnter; return
         }
 
-        $rows = @()
-        foreach ($m in ($meetings | Sort-Object starts_at)) {
-            $rows += [pscustomobject]@{
+        $rows = foreach ($m in ($meetings | Sort-Object starts_at)) {
+            [pscustomobject]@{
                 "Client"       = $m.client.label
                 "Meeting"      = $m.title
                 "Meeting ID"   = $m.id
@@ -629,7 +629,7 @@ function New-Meeting {
         Write-Host ("  Creating '{0}' for {1} client(s)..." -f $template.menu_name, $targets.Count) -ForegroundColor Green
         Write-Host ""
 
-        $results = @()
+        $results = [System.Collections.Generic.List[object]]::new()
 
         foreach ($c in $targets) {
             $payload = New-MeetingPayload -ClientId ([string]$c.id) -Template $template
@@ -646,12 +646,12 @@ function New-Meeting {
                 $status = "ERROR: $($_.Exception.Message)"
             }
 
-            $results += [pscustomobject]@{
+            $results.Add([pscustomobject]@{
                 "Client"     = $c.name
                 "Meeting"    = $template.menu_name
                 "Created ID" = $newId
                 "Status"     = $status
-            }
+            })
         }
 
         $table = $results | Format-Table -AutoSize | Out-String
